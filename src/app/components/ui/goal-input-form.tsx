@@ -16,6 +16,13 @@ import {
 } from "@/app/components/ui/form";
 import { Input } from "@/app/components/ui/input";
 import { useToast } from "@/app/components/ui/use-toast";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "./card";
 
 const FormSchema = z.object({
   goal: z.string().min(2, {
@@ -23,17 +30,22 @@ const FormSchema = z.object({
   }),
 });
 
-export function GoalInputForm() {
+export function GoalInputForm({
+  setGoal,
+}: {
+  setGoal: (goal: string) => void;
+}) {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      goal: "",
+      goal: "Testing testing",
     },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
+    setGoal(data.goal);
     toast({
       title: "You submitted the following values:",
       description: (
@@ -45,27 +57,36 @@ export function GoalInputForm() {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col w-11/12 max-w-screen-md gap-2 md:items-end md:flex-row"
-      >
-        <FormField
-          control={form.control}
-          name="goal"
-          render={({ field }) => (
-            <FormItem className="md:grow">
-              <FormLabel>Goal</FormLabel>
-              <FormDescription>What do you want to accomplish?</FormDescription>
-              <FormControl>
-                <Input placeholder="I want to learn how to..." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Generate Flow</Button>
-      </form>
-    </Form>
+    <Card className="w-11/12 max-w-screen-md mx-auto">
+      <CardHeader>
+        <CardTitle>New Flow</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-2 md:items-end md:flex-row"
+          >
+            <FormField
+              control={form.control}
+              name="goal"
+              render={({ field }) => (
+                <FormItem className="md:grow">
+                  <FormLabel>Enter a goal</FormLabel>
+                  <FormDescription>
+                    What do you want to accomplish?
+                  </FormDescription>
+                  <FormControl>
+                    <Input placeholder="I want to learn how to..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Generate Flow</Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }
