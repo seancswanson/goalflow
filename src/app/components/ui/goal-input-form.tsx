@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/app/components/ui/button";
@@ -25,27 +25,34 @@ import {
 } from "./card";
 
 const FormSchema = z.object({
-  goal: z.string().min(2, {
-    message: "Goal must be at least 2 characters.",
+  goal: z.string().min(5, {
+    message: "Goal must be at least 5 characters.",
+  }),
+  context: z.string().min(5, {
+    message: "Context must be at least 5 characters.",
   }),
 });
 
 export function GoalInputForm({
   setGoal,
+  setContext,
 }: {
   setGoal: (goal: string) => void;
+  setContext: (context: string) => void;
 }) {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       goal: "Testing testing",
+      context: "Testing testing",
     },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
     setGoal(data.goal);
+    setContext(data.context);
     toast({
       title: "You submitted the following values:",
       description: (
@@ -65,7 +72,7 @@ export function GoalInputForm({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-2 md:items-end md:flex-row"
+            className="flex flex-col gap-4"
           >
             <FormField
               control={form.control}
@@ -78,6 +85,23 @@ export function GoalInputForm({
                   </FormDescription>
                   <FormControl>
                     <Input placeholder="I want to learn how to..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="context"
+              render={({ field }) => (
+                <FormItem className="md:grow">
+                  <FormLabel>Additional Context</FormLabel>
+                  <FormDescription>
+                    What should we know about where you are now in relation to
+                    your goal?
+                  </FormDescription>
+                  <FormControl>
+                    <Input placeholder="I haven't started yet." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

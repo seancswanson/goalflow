@@ -45,9 +45,10 @@ const GoalFlow = (goal: string) => {
 
 export function GoalLab() {
   const [goal, setGoal] = useState("");
+  const [context, setContext] = useState("");
   return (
     <>
-      <GoalInputForm setGoal={setGoal} />
+      <GoalInputForm setGoal={setGoal} setContext={setContext} />
       {goal ? (
         <div className="container h-full">
           <FadeIn delay={100}>
