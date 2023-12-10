@@ -1,4 +1,4 @@
-import { GoalLab } from "./goal-lab";
+import { GoalLab } from "./GoalLab";
 
 export default function Home() {
   return (

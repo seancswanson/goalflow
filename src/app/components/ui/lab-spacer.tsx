@@ -1,9 +1,13 @@
-import { ping } from "ldrs";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 
 export const LabLoader = ({ count }: { count: number }) => {
-  ping.register();
-
+  useEffect(() => {
+    async function getLoader() {
+      const { ping } = await import("ldrs");
+      ping.register();
+    }
+    getLoader();
+  }, []);
   // Default values shown
   return (
     <div className="flex flex-col items-center gap-6 py-4">
