@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-axiom-pattern bg-white`}>
+    <html lang="en" className="h-screen">
+      <body className={`${inter.className} h-full bg-axiom-pattern bg-white`}>
         <Navbar></Navbar>
         {children}
         <Toaster />

@@ -23,7 +23,11 @@ const FormSchema = z.object({
   }),
 });
 
-export function GoalInputForm() {
+export function GoalInputForm({
+  setGoal,
+}: {
+  setGoal: (goal: string) => void;
+}) {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -34,6 +38,7 @@ export function GoalInputForm() {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
+    setGoal(data.goal);
     toast({
       title: "You submitted the following values:",
       description: (
