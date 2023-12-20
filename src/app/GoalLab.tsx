@@ -1,7 +1,13 @@
 "use client";
 import { useState } from "react";
 import { GoalInputForm } from "@/app/components/ui/goal-input-form";
-import ReactFlow, { Background, Controls } from "reactflow";
+import ReactFlow, {
+  Background,
+  Controls,
+  Node,
+  Edge,
+  NodeOrigin,
+} from "reactflow";
 import { LabLoader } from "./components/ui/lab-spacer";
 import FadeIn from "react-fade-in";
 import * as React from "react";
@@ -16,13 +22,30 @@ import {
 } from "@/app/components/ui/card";
 
 const GoalFlow = (goal: string) => {
-  const nodes = [
+  const nodeOrigin: NodeOrigin = [0.5, 0.5];
+
+  const nodes: Node[] = [
     {
-      id: "1", // required
-      position: { x: 0, y: 0 }, // required
+      id: "1",
+      position: { x: 0, y: 0 },
       data: { label: goal },
       type: "input",
     },
+    {
+      id: "2",
+      position: { x: 0, y: 100 },
+      data: { label: "First Domain" },
+    },
+    {
+      id: "3",
+      data: { label: "Second Domain" },
+      position: { x: 0, y: 200 },
+    },
+  ];
+
+  const edges: Edge[] = [
+    { id: "1-2", source: "1", target: "2" },
+    { id: "1-3", source: "2", target: "3" },
   ];
   return (
     <Card className="w-11/12 max-w-screen-md mx-auto">
@@ -33,10 +56,16 @@ const GoalFlow = (goal: string) => {
           goals.
         </CardDescription>
       </CardHeader>
-      <CardContent className="h-full">
-        <ReactFlow nodes={nodes} className="min-h-[200px]">
+      <CardContent className="h-[50vh]">
+        <ReactFlow
+          nodeOrigin={nodeOrigin}
+          nodes={nodes}
+          edges={edges}
+          className="min-h-[200px] h-full pb-12"
+          fitView
+        >
           <Background />
-          <Controls />
+          <Controls showInteractive={false} />
         </ReactFlow>
       </CardContent>
     </Card>
