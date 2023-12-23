@@ -44,8 +44,9 @@ export function GoalInputForm({
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      goal: "Testing testing",
-      context: "Testing testing",
+      goal: "Example goal. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      context:
+        "Example additional context. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
     },
   });
 
