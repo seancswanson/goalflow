@@ -36,9 +36,11 @@ const FormSchema = z.object({
 export function GoalInputForm({
   setGoal,
   setContext,
+  setRoadmap,
 }: {
   setGoal: (goal: string) => void;
   setContext: (context: string) => void;
+  setRoadmap: (data: string) => void;
 }) {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -54,6 +56,25 @@ export function GoalInputForm({
     console.log(data);
     setGoal(data.goal);
     setContext(data.context);
+    fetch("/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-4",
+        message: `Goal: ${data.goal} - Extra context: ${data.context}`,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response from the API
+        console.log("then data", data);
+        setRoadmap(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
     toast({
       title: "You submitted the following values:",
       description: (

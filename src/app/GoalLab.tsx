@@ -20,10 +20,45 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card";
+type SkillResource = {
+  name: string;
+  subSkills: string[];
+  resources: string[];
+};
 
-const GoalFlow = (goal: string) => {
+type MainNodes = {
+  name: string;
+  childNodes: SkillResource[];
+};
+
+type Roadmap = MainNodes[];
+
+function createNodesFromRoadmap(roadmap: Roadmap) {
+  let y = -100;
+  return roadmap.map((mainNode) => {
+    y += 100;
+    return {
+      id: mainNode.name,
+      data: { label: mainNode.name },
+      position: { x: 0, y: y },
+    };
+  });
+}
+const GoalFlow = ({
+  goal,
+  context,
+  roadmap,
+}: {
+  goal: string;
+  context: string;
+  roadmap: string;
+}) => {
   const nodeOrigin: NodeOrigin = [0.5, 0.5];
 
+  const createNodesFromRoadmap = (roadmap: string) => {
+    console.log("creating nodes", roadmap);
+  };
+  createNodesFromRoadmap(roadmap);
   const nodes: Node[] = [
     {
       id: "1",
@@ -75,14 +110,19 @@ const GoalFlow = (goal: string) => {
 export function GoalLab() {
   const [goal, setGoal] = useState("");
   const [context, setContext] = useState("");
+  const [roadmap, setRoadmap] = useState("");
   return (
     <>
-      <GoalInputForm setGoal={setGoal} setContext={setContext} />
+      <GoalInputForm
+        setGoal={setGoal}
+        setContext={setContext}
+        setRoadmap={setRoadmap}
+      />
       {goal ? (
         <div className="container h-full">
           <FadeIn delay={100}>
             <LabLoader count={3} />
-            {GoalFlow(goal)}
+            {roadmap ? GoalFlow({ goal, context, roadmap }) : null}
           </FadeIn>
         </div>
       ) : null}
