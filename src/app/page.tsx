@@ -2,7 +2,7 @@ import { GoalLab } from "./GoalLab";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center w-11/12 h-full mx-auto">
+    <main className="flex flex-col items-center w-11/12 min-h-full mx-auto">
       <GoalLab />
     </main>
   );
