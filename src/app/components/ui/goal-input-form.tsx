@@ -23,6 +23,7 @@ import {
   CardDescription,
   CardContent,
 } from "./card";
+import { Roadmap } from "@/app/GoalLab";
 
 const FormSchema = z.object({
   goal: z.string().min(5, {
@@ -37,18 +38,22 @@ export function GoalInputForm({
   setGoal,
   setContext,
   setRoadmap,
+  setLoading,
+  setError,
 }: {
   setGoal: (goal: string) => void;
   setContext: (context: string) => void;
-  setRoadmap: (data: string) => void;
+  setRoadmap: (data: Roadmap) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string) => void;
 }) {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      goal: "Example goal. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      goal: "I want to become a software engineer.",
       context:
-        "Example additional context. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+        "I have no experience in software engineering, but I have a lot of experience in customer service.",
     },
   });
 
@@ -56,6 +61,7 @@ export function GoalInputForm({
     console.log(data);
     setGoal(data.goal);
     setContext(data.context);
+    setLoading(true);
     fetch("/chat", {
       method: "POST",
       headers: {
@@ -70,10 +76,24 @@ export function GoalInputForm({
       .then((data) => {
         // Handle the response from the API
         console.log("then data", data);
-        setRoadmap(data);
+        if (!data.roadmap || !data.roadmap.mainNodes) {
+          setLoading(false);
+          throw new Error(
+            `No roadmap returned or improperly formatted: \n\n Response: \n${JSON.stringify(
+              data,
+              null,
+              2
+            )}`
+          );
+        }
+        setLoading(false);
+
+        setRoadmap(data.roadmap);
       })
       .catch((error) => {
         console.error("Error:", error);
+        setLoading(false);
+        setError(error.message);
       });
     toast({
       title: "You submitted the following values:",

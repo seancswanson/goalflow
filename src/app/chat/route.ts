@@ -25,19 +25,18 @@ export async function POST(request: Request) {
         role: "system",
         content: `{
   "messageType": "CreateGoalRoadmap",
-  "description": "This system message instructs the AI to create a roadmap for achieving user-defined goals. The AI will take a goal and its context as input from the user.",
+  "description": "This system message instructs the AI to create a roadmap for achieving user-defined goals. The AI will take a goal and its context as input from the user. Return only JSON that matches the structure below.",
   "instructions": {
     "acceptUserInput": {
       "goal": "User-defined objective",
       "context": "Background and details surrounding the goal"
     },
     "generateRoadmap": {
-      "description": "Construct a data structure representing a roadmap of domains and skills required to achieve the goal",
+      "description": "Construct JSON representing a roadmap of domains and skills required to achieve the goal",
       "structure": {
-        "mainNodes": "High-level domains essential for the goal",
-        "childNodes": {
-          "description": "Contain detailed information and prerequisites related to each domain"
-        }
+        "roadmap": "Top-level object. Has mainNodes. {roadmap: {alternate_goals: 'array of similar, but distinct goals related to the original goal', goal: 'Rephrase goal', context: 'Rephrase context', mainNodes: [mainNodes]}",
+        "mainNodes": "High-level domains essential for the goal. Has childNodes. {estimated_duration: 'range of how long it could take to learn this group in work hours.' name: string, description: string, childNodes: [childNodes]}",
+        "childNodes": "Skills for each mainNode. {name: string, description: string, resources: [resources]}",
       }
     }
   },
