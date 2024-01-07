@@ -105,7 +105,7 @@ const GoalFlow = ({
     { id: "1-3", source: "2", target: "3" },
   ];
   return (
-    <Card className="w-11/12 max-w-screen-md mx-auto">
+    <Card className="w-full max-w-screen-md mx-auto">
       <CardHeader>
         <CardTitle>Your flow is ready!</CardTitle>
         <CardDescription>
@@ -145,7 +145,7 @@ export function GoalLab() {
         setError={setError}
       />
       {goal ? (
-        <div className="container h-full">
+        <div className="w-full h-full">
           {loading ? (
             <LoadingIndicator /> // Show the spinner when loading
           ) : (
@@ -155,7 +155,7 @@ export function GoalLab() {
                 <GoalFlow goal={goal} context={context} roadmap={roadmap} />
               ) : null}
               {error ? (
-                <Card className="w-11/12 max-w-screen-md mx-auto">
+                <Card className="w-full max-w-screen-md mx-auto border-[1.5px] rounded-none">
                   <CardHeader>
                     <CardTitle>Apologies- Something went wrong.</CardTitle>
                     <CardDescription>Please try again.</CardDescription>

@@ -31,7 +31,7 @@ function Logo() {
   return (
     <Link
       href={"/"}
-      className="flex items-center gap-2 md:py-3 md:bg-white md:border-[1.5px] px-4 md:px-6 md:border-black md:rounded-full md:border-opacity-20 md:shadow-md"
+      className="flex items-center gap-2 px-4 md:py-3 md:bg-white md:px-6"
     >
       <Image src={logo} alt="GoalFlow Logo" width={40} />
       <div className="relative w-min">
@@ -85,10 +85,12 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="w-full mb-8 bg-white border-b md:border-0 md:bg-transparent">
-      <div className="max-w-screen-lg mx-auto md:w-[90%] py-3 md:p-0  md:mt-5 md:flex-row flex justify-between">
-        <Logo />
-        <div className="px-4 md:px-6 md:items-center md:flex block  md:flex-row justify-between md:bg-white md:border-[1.5px] md:border-black md:rounded-full md:border-opacity-20 md:shadow-md">
+    <nav className="w-full mb-8 bg-white border-t-[1.5px] border-b-[1.5px]">
+      <div className="max-w-screen-lg mx-auto md:w-[90%] md:py-0  md:flex-row flex justify-between">
+        <div className="py-3 border-l-[1.5px] border-r-[1.5px]">
+          <Logo />
+        </div>
+        <div className="justify-between block px-4 py-3 border-l-[1.5px] border-r-[1.5px] md:items-center md:flex md:flex-row md:py-0">
           <HamburgerButton onClick={() => setIsMenuActive(!isMenuActive)} />
           {/* <ul className="hidden gap-6 mr-6 md:flex">
             {menuItems.map((item, idx) => (

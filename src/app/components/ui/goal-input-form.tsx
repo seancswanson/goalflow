@@ -106,7 +106,7 @@ export function GoalInputForm({
   }
 
   return (
-    <Card className="w-11/12 max-w-screen-md mx-auto">
+    <Card className="max-w-screen-md w-full mx-auto border-[1.5px]">
       <CardHeader>
         <CardTitle>New Flow</CardTitle>
       </CardHeader>
